@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue Playbook Banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Revenue Playbook brand (group orange) */
+    --brand: #e8590c;
+    --brand-deep: #c2410c;
+    --brand-soft: #fff3ea;
+    --brand-border: #f6dcc8;
+    --text-primary: #1f2430;
+    --text-secondary: #6b7280;
+    --chip-bg: #ffffff;
+    --r: 12px;
+    --r-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: transparent; }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    padding: 3px;
+  }
+  .banner {
+    height: 210px;
+    border: 1px solid var(--brand-border);
+    border-radius: var(--r);
+    background: linear-gradient(120deg, #fff8f3 0%, #ffeede 100%);
+    padding: 24px 28px 22px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  /* subtle brand accent, top edge */
+  .banner::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand), #f59e0b);
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    margin-top: 7px;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+    max-width: 620px;
+  }
+  /* pipeline strip pinned to bottom */
+  .pipeline {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .stage {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--chip-bg);
+    border: 1px solid var(--brand-border);
+    border-radius: 999px;
+    padding: 7px 14px 7px 7px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .stage .num {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage .label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .arrow {
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 700;
+    flex: 0 0 auto;
+    opacity: 0.55;
+  }
+  @media (max-width: 700px) {
+    .banner { padding: 20px 20px 18px; }
+    h1 { font-size: 22px; }
+    .sub { font-size: 13.5px; }
+    .stage { padding: 6px 10px 6px 6px; gap: 6px; }
+    .stage .label { font-size: 12px; }
+    .arrow { display: none; }
+    .pipeline { gap: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="eyebrow">Revenue Playbook</div>
+    <h1>Your whole deal cycle. One playbook.</h1>
+    <p class="sub">Find the moment you're in, take what works. Every lane below matches a stage of your pipeline, built from what our top performers actually do.</p>
+    <div class="pipeline" aria-label="Deal stages">
+      <div class="stage"><span class="num">1</span><span class="label">Prospect</span></div>
+      <span class="arrow">›</span>
+      <div class="stage"><span class="num">2</span><span class="label">Discovery</span></div>
+      <span class="arrow">›</span>
+      <div class="stage"><span class="num">3</span><span class="label">Demo</span></div>
+      <span class="arrow">›</span>
+      <div class="stage"><span class="num">4</span><span class="label">Objections</span></div>
+      <span class="arrow">›</span>
+      <div class="stage"><span class="num">5</span><span class="label">Close</span></div>
+    </div>
+  </div>
+</body>
+</html>
