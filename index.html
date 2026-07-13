@@ -9,16 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Revenue Playbook brand (group orange) */
-    --brand: #e8590c;
-    --brand-deep: #c2410c;
-    --brand-soft: #fff3ea;
-    --brand-border: #f6dcc8;
-    --text-primary: #1f2430;
-    --text-secondary: #6b7280;
-    --chip-bg: #ffffff;
+    /* Revenue Playbook brand orange on a dark sales-floor surface */
+    --brand: #F87315;
+    --brand-tint: #fda65d;
+    --brand-deep: #d95c07;
+    --surface-1: #0b1322;
+    --surface-2: #14203a;
+    --surface-border: #223354;
+    --text-primary: #f8fafc;
+    --text-secondary: #a7b4c9;
+    --stage-bg: rgba(148, 163, 184, 0.13);
     --r: 12px;
-    --r-sm: 8px;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: transparent; }
@@ -30,9 +31,15 @@
   }
   .banner {
     height: 210px;
-    border: 1px solid var(--brand-border);
+    border: 1px solid var(--surface-border);
+    border-top-color: transparent;
     border-radius: var(--r);
-    background: linear-gradient(120deg, #fff8f3 0%, #ffeede 100%);
+    /* top layer: brand accent strip painted under the transparent top border */
+    background:
+      linear-gradient(90deg, var(--brand), #f59e0b) top / 100% 5px no-repeat,
+      linear-gradient(115deg, var(--surface-1) 0%, var(--surface-2) 100%);
+    background-origin: border-box;
+    background-clip: border-box;
     padding: 24px 28px 22px;
     display: flex;
     flex-direction: column;
@@ -40,15 +47,41 @@
     position: relative;
     overflow: hidden;
   }
-  /* subtle brand accent, top edge */
-  .banner::before {
-    content: "";
+  /* decorative revenue trend, recessive so text stays readable */
+  .trend {
     position: absolute;
-    inset: 0 0 auto 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--brand), #f59e0b);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
   }
+  .trend .line {
+    fill: none;
+    stroke: var(--brand);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    opacity: 0.45;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation: draw 1.4s ease-out 0.2s forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    min-width: 0;
+  }
+  .headline { min-width: 0; }
   .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -56,6 +89,7 @@
     color: var(--brand);
     margin-bottom: 8px;
   }
+  .eyebrow svg { flex: 0 0 auto; }
   h1 {
     font-size: 26px;
     font-weight: 800;
@@ -68,81 +102,145 @@
     font-size: 14.5px;
     line-height: 1.45;
     color: var(--text-secondary);
-    max-width: 620px;
+    max-width: 560px;
   }
-  /* pipeline strip pinned to bottom */
-  .pipeline {
-    margin-top: auto;
+  /* scoreboard: reps respond to numbers */
+  .stats {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 18px;
+    flex: 0 0 auto;
+    padding: 10px 16px;
+    margin-top: 2px;
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+    background: rgba(11, 19, 34, 0.55);
+  }
+  .stat { text-align: center; }
+  .stat .n {
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .l {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .stats .divider {
+    width: 1px;
+    height: 30px;
+    background: var(--surface-border);
+  }
+  /* CRM-style deal path pinned to bottom */
+  .pipeline {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 4px;
     min-width: 0;
   }
   .stage {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--chip-bg);
-    border: 1px solid var(--brand-border);
-    border-radius: 999px;
-    padding: 7px 14px 7px 7px;
+    flex: 1 1 0;
     min-width: 0;
-    white-space: nowrap;
-  }
-  .stage .num {
-    width: 22px;
-    height: 22px;
-    flex: 0 0 22px;
-    border-radius: 50%;
-    background: var(--brand);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 14px 0 20px;
+    background: var(--stage-bg);
+    clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 0 100%, 11px 50%);
+    white-space: nowrap;
+  }
+  .stage:first-child {
+    clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 0 100%);
+    border-radius: 6px 0 0 6px;
+    padding-left: 14px;
+  }
+  .stage:last-child {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 11px 50%);
+    border-radius: 0 6px 6px 0;
+    background: linear-gradient(90deg, var(--brand-deep), var(--brand));
+  }
+  .stage .num {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--brand-tint);
+    font-variant-numeric: tabular-nums;
   }
   .stage .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #dbe3ef;
   }
-  .arrow {
-    color: var(--brand);
-    font-size: 13px;
-    font-weight: 700;
-    flex: 0 0 auto;
-    opacity: 0.55;
+  .stage:last-child .num { color: #3b1503; }
+  .stage:last-child .label { color: #1c0a01; font-weight: 800; }
+  @media (max-width: 900px) {
+    .stats { display: none; }
   }
   @media (max-width: 700px) {
     .banner { padding: 20px 20px 18px; }
     h1 { font-size: 22px; }
     .sub { font-size: 13.5px; }
-    .stage { padding: 6px 10px 6px 6px; gap: 6px; }
-    .stage .label { font-size: 12px; }
-    .arrow { display: none; }
-    .pipeline { gap: 6px; }
+    .stage { padding: 0 8px 0 14px; gap: 5px; height: 32px; }
+    .stage:first-child { padding-left: 10px; }
+    .stage .label { font-size: 11.5px; }
+    .stage .num { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
+    .trend .line { stroke-dashoffset: 0; }
   }
 </style>
 </head>
 <body>
   <div class="banner">
-    <div class="eyebrow">Revenue Playbook</div>
-    <h1>Your whole deal cycle. One playbook.</h1>
-    <p class="sub">Find the moment you're in, take what works. Every lane below matches a stage of your pipeline, built from what our top performers actually do.</p>
+    <svg class="trend" viewBox="0 0 1200 210" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F87315" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#F87315" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M-10 178 L150 166 L280 172 L420 140 L560 150 L720 108 L860 118 L1010 70 L1120 78 L1210 32 L1210 210 L-10 210 Z" fill="url(#area)"/>
+      <path class="line" d="M-10 178 L150 166 L280 172 L420 140 L560 150 L720 108 L860 118 L1010 70 L1120 78 L1210 32"/>
+    </svg>
+    <div class="content">
+      <div class="headline">
+        <div class="eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/>
+          </svg>
+          Revenue Playbook
+        </div>
+        <h1>Win more. Sell smarter.</h1>
+        <p class="sub">Everything you need to close, organised the way you actually work &mdash; built from what our top performers actually do.</p>
+      </div>
+      <div class="stats" aria-label="What's inside">
+        <div class="stat"><span class="n">15</span><span class="l">Plays</span></div>
+        <div class="divider"></div>
+        <div class="stat"><span class="n">5</span><span class="l">Deal stages</span></div>
+        <div class="divider"></div>
+        <div class="stat"><span class="n">0</span><span class="l">Fluff</span></div>
+      </div>
+    </div>
     <div class="pipeline" aria-label="Deal stages">
-      <div class="stage"><span class="num">1</span><span class="label">Prospect</span></div>
-      <span class="arrow">›</span>
-      <div class="stage"><span class="num">2</span><span class="label">Discovery</span></div>
-      <span class="arrow">›</span>
-      <div class="stage"><span class="num">3</span><span class="label">Demo</span></div>
-      <span class="arrow">›</span>
-      <div class="stage"><span class="num">4</span><span class="label">Objections</span></div>
-      <span class="arrow">›</span>
-      <div class="stage"><span class="num">5</span><span class="label">Close</span></div>
+      <div class="stage"><span class="num">01</span><span class="label">Prospect</span></div>
+      <div class="stage"><span class="num">02</span><span class="label">Discovery</span></div>
+      <div class="stage"><span class="num">03</span><span class="label">Demo</span></div>
+      <div class="stage"><span class="num">04</span><span class="label">Objections</span></div>
+      <div class="stage"><span class="num">05</span><span class="label">Close</span></div>
     </div>
   </div>
 </body>
